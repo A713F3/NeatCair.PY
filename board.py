@@ -13,10 +13,3 @@ class Board:
         
         if self.log_pos >= limit:
             self.log_pos = 0
-
-class Object:
-    def __init__(self, w, h, color):
-        self.w = w
-        self.h = h
-        self.color = color
-    

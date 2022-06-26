@@ -1,6 +1,16 @@
 import pygame
 from board import Board, Object
 
+
+class Object:
+    def __init__(self, w, h, color):
+        self.w = w
+        self.h = h
+        self.color = color
+
+    def draw(self, screen, x, y):
+        pygame.draw.rect(screen, self.color, (x, y, self.w, self.h)) 
+
 pygame.init()
 
 """
@@ -65,27 +75,31 @@ while running:
             y = r*SIZE+PD
             
             #Background
-            pygame.draw.rect(screen, ROAD.color, (x, y, ROAD.w, ROAD.h)) 
+            ROAD.draw(screen, x, y)
 
             #Lane
             lane_x = x + DSIZE//2 - LANE.w//2
-            pygame.draw.rect(screen, LANE.color, (lane_x, y, LANE.w, LANE.h))
+            LANE.draw(screen, lane_x, y)
 
             #Car
             if board.car_lane == 0:
                 car_x = x + DSIZE//4 - CAR.w//2
             if board.car_lane == 1:
                 car_x = x + 3*DSIZE//4 - CAR.w//2
+            
+            car_y = y + 3*CAR.h
 
-            pygame.draw.rect(screen, CAR.color, (car_x, y + 3*CAR.h, CAR.w, CAR.h))
+            CAR.draw(screen, car_x, car_y)
 
             #Log
             if board.log_lane == 0:
                 log_x = x + DSIZE//4 - LOG.w//2
             if board.log_lane == 1:
                 log_x = x + 3*DSIZE//4 - LOG.w//2
+            
+            log_y = y+board.log_pos
 
-            pygame.draw.rect(screen, LOG.color, (log_x, y+board.log_pos, LOG.w, LOG.h))
+            LOG.draw(screen, log_x, log_y)
 
             #Move Logs
             board.move_log(car=DSIZE - CAR.h - LOG.h, limit=DSIZE - LOG.h)
