@@ -1,5 +1,5 @@
 import pygame
-from board import Board
+from board import *
 from random import randint
 
 
@@ -105,9 +105,17 @@ while running:
 
             #Move Logs
             if board.is_active:
-                board.move_log(car=DSIZE - CAR.h - LOG.h, limit=DSIZE - LOG.h)
+                board.update(car=DSIZE - CAR.h - LOG.h, limit=DSIZE - LOG.h)
             
             screen.blit(font.render(str(board.score), True, CAR.color), (x, y))
+
+    if allBoardsNotActive(BOARDS):
+        best_board = bestBoard(BOARDS)
+
+        for r in range(ROW):
+            for c in range(COL):
+                BOARDS[r][c].nn = best_board.nn.mutate(mutation_rate=0.001)
+                BOARDS[r][c].reset()
             
         
     pygame.display.update()
