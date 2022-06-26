@@ -46,7 +46,13 @@ def bestBoard(boards):
 
     for r in range(len(boards)):
         for c in range(len(boards[r])):
-            if not boards[r][c].score >= best_board.score:
+            if boards[r][c].score >= best_board.score:
                 best_board = boards[r][c]
 
     return best_board 
+
+def resetBoards(boards, best_board, mutation_rate):
+    for r in range(len(boards)):
+            for c in range(len(boards[r])):
+                boards[r][c].nn = best_board.nn.mutate(mutation_rate=mutation_rate)
+                boards[r][c].reset()

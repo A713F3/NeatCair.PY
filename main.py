@@ -1,6 +1,7 @@
 import pygame
 from board import *
 from random import randint
+from time import time
 
 
 class Object:
@@ -10,29 +11,10 @@ class Object:
         self.color = color
 
     def draw(self, screen, x, y):
-        pygame.draw.rect(screen, self.color, (x, y, self.w, self.h)) 
+        pygame.draw.rect(screen, self.color, (x, y, self.w, self.h))
 
 pygame.init()
 font = pygame.font.Font(None, 30)
-
-"""
-20 border
-__________________
-5 padding
-
-65 car  65 log
-
-5 padding
-___________________
-
-10 lane ===========
-___________________
-5 padding
-
-5 padding
-___________________
-20 border
-"""
 
 ROW = 3
 COL = 3
@@ -61,8 +43,16 @@ for r in range(ROW):
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
+gens = 0
+best_score = 0
+prev_best_score = 0
+
+prev_time = time()
+
 running = True
 while running:
+    cur_time = time()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -109,17 +99,20 @@ while running:
             
             screen.blit(font.render(str(board.score), True, CAR.color), (x, y))
 
-    if allBoardsNotActive(BOARDS):
-        best_board = bestBoard(BOARDS)
+    best_board = bestBoard(BOARDS)
+    if best_board.score > best_score: best_score = best_board.score
 
-        for r in range(ROW):
-            for c in range(COL):
-                BOARDS[r][c].nn = best_board.nn.mutate(mutation_rate=0.001)
-                BOARDS[r][c].reset()
+    if allBoardsNotActive(BOARDS) or cur_time - prev_time > 10:
+        gens += 1
+        prev_best_score = best_board.score
+
+        prev_time = time()
+        resetBoards(BOARDS, best_board, 0.1)
+
+    info_text = f"Gens:{gens} Best Score:{best_score} Prev Best Score:{prev_best_score}"
+    screen.blit(font.render(info_text, True, (150, 150, 150)), (10, HEIGHT-30))
             
         
     pygame.display.update()
-
-
 
 pygame.quit()
