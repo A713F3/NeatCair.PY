@@ -26,8 +26,8 @@ DSIZE = SIZE - 2*PD
 WIDTH = COL * SIZE
 HEIGHT = ROW * SIZE
 
-CAR = Object(30, DSIZE//4, (255, 0, 0))
-LOG = Object(15, DSIZE//4, (139, 69, 19))
+CAR = Object(20, DSIZE//4, (255, 0, 0))
+LOG = Object(10, DSIZE//4, (139, 69, 19))
 LANE = Object(10, DSIZE, (100, 100, 100))
 ROAD = Object(DSIZE, DSIZE, (20, 20, 20))
 
@@ -42,6 +42,7 @@ for r in range(ROW):
 
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
+pygame.display.set_caption("Neat Cair")
 
 gens = 0
 best_score = 0
