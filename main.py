@@ -16,10 +16,10 @@ class Object:
 pygame.init()
 font = pygame.font.Font(None, 30)
 
-ROW = 3
-COL = 3
+ROW = 4
+COL = 4
 
-SIZE = 200
+SIZE = 150
 PD = 5
 DSIZE = SIZE - 2*PD
 
