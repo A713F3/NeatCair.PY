@@ -1,5 +1,5 @@
 import pygame
-import board
+from board import Board
 
 pygame.init()
 
@@ -26,18 +26,20 @@ ROW = 3
 COL = 3
 
 SIZE = 200
+PD = 5
 
 WIDTH = COL * SIZE
 HEIGHT = ROW * SIZE
 
-"""BOARDS = []
+BOARDS = []
 for r in range(ROW):
     row = []
     for c in range(COL):
-        row.append(Board(c%2, r%2))
+        board = Board(c%2, r%2)
+        row.append(board)
 
     BOARDS.append(row)
-"""
+
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 
@@ -47,13 +49,15 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    screen.fill((0, 0, 0))
+    screen.fill((255, 0, 0))
 
+    cl = 255
     for r in range(ROW):
         for c in range(COL):
-            #board = BOARDS[r][c]
+            board = BOARDS[r][c]
 
-            pygame.draw.rect(screen, (255, 255, 255), (c*SIZE, r*SIZE, c*SIZE + SIZE, r*SIZE + SIZE), 10)
+            pygame.draw.rect(screen, (cl, cl, cl), (c*SIZE+PD, r*SIZE+PD, SIZE-2*PD, SIZE-2*PD))
+            cl -= 25
 
     pygame.display.update()
 
